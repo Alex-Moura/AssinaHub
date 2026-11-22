@@ -1,6 +1,6 @@
-package br.com.assinahub.Entities;
+package br.com.assinahub.entities;
 
-import br.com.assinahub.Entities.base.BaseEntity;
+import br.com.assinahub.entities.base.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

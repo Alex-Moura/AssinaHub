@@ -1,4 +1,4 @@
-package br.com.assinahub.Entities.base;
+package br.com.assinahub.entities.base;
 
 import jakarta.persistence.*;
 import lombok.Getter;
