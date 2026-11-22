@@ -1,6 +1,6 @@
 package br.com.assinahub.entities;
 
-import br.com.assinahub.entities.base.BaseEntity;
+import br.com.assinahub.entities.base.AuditableEntity;
 import br.com.assinahub.enums.subscription.BillingCycle;
 import br.com.assinahub.enums.subscription.PaymentMethod;
 import br.com.assinahub.enums.subscription.Status;
@@ -21,7 +21,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tbl_subscriptions")
-public class Subscription extends BaseEntity {
+public class Subscription extends AuditableEntity {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)

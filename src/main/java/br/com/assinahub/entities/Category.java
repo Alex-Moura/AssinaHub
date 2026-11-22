@@ -1,6 +1,6 @@
 package br.com.assinahub.entities;
 
-import br.com.assinahub.entities.base.BaseEntity;
+import br.com.assinahub.entities.base.AuditableEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tbl_categories")
-public class Category extends BaseEntity {
+public class Category extends AuditableEntity {
 
     @Column(name = "name", nullable = false, length = 150)
     private String name;
