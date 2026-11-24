@@ -3,6 +3,7 @@ package br.com.assinahub.services.imp;
 import br.com.assinahub.dtos.user.UserRequestDTO;
 import br.com.assinahub.dtos.user.UserResponseDTO;
 import br.com.assinahub.entities.User;
+import br.com.assinahub.exceptions.ConflictException;
 import br.com.assinahub.mappers.UserMapper;
 import br.com.assinahub.repositories.UserRepository;
 import br.com.assinahub.services.UserService;
@@ -31,10 +32,10 @@ public class UserServiceImpl implements UserService {
         String phone = requestDTO.phone().trim();
 
         if (userRepository.existsByEmail(email)){
-            throw new RuntimeException("Email já cadastrado");
+            throw new ConflictException("Email já cadastrado");
         }
         if (userRepository.existsByPhone(phone)) {
-            throw new RuntimeException("Telefone já cadastrado");
+            throw new ConflictException("Telefone já cadastrado");
         }
         User user = userMapper.toEntity(requestDTO);
         user.setPhone(phone);
