@@ -17,10 +17,14 @@ public record UserRequestDTO(
 
         @NotBlank
         @Size
-        (min = 8, max = 72) String password,
+        (min = 8) String password,
 
         @NotBlank
-        @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "telefone deve ter de 10 a 15 dígitos")
+        @Pattern(
+                regexp = "^(?:\\s*\\d){10,15}\\s*$",
+                message = "telefone deve ter de 10 a 15 dígitos (somente números)"
+        )
+        @Size(max = 30)
         String phone
 ) {
 }

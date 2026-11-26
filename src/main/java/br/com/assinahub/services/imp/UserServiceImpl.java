@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Locale;
 import java.util.UUID;
 
 @Service
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDTO create(UserRequestDTO requestDTO) {
 
         String email = requestDTO.email().trim().toLowerCase();
-        String phone = requestDTO.phone().trim();
+        String phone = requestDTO.phone().replaceAll("\\s+", "");
 
         if (userRepository.existsByEmail(email)){
             throw new ConflictException("Email já cadastrado");
