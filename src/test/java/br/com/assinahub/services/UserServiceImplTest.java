@@ -4,6 +4,7 @@ import br.com.assinahub.dtos.user.UserRequestDTO;
 import br.com.assinahub.dtos.user.UserResponseDTO;
 import br.com.assinahub.entities.User;
 import br.com.assinahub.exceptions.ConflictException;
+import br.com.assinahub.exceptions.ResourceNotFoundException;
 import br.com.assinahub.mappers.UserMapper;
 import br.com.assinahub.repositories.UserRepository;
 import br.com.assinahub.services.imp.UserServiceImpl;
@@ -20,6 +21,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -151,6 +155,34 @@ public class UserServiceImplTest {
 
             verify(userRepository, never()).save(any());
             verifyNoInteractions(userMapper, passwordEncoder);
+        }
+    }
+
+    @Nested
+    @DisplayName("findById")
+    class findById{
+
+        private final static UUID ID = java.util.UUID.randomUUID();
+
+        @Test
+        @DisplayName("should return the user when it exists")
+        public void shouldReturnUserWhenFound(){
+            User user = UserFixture.userEntity();
+            UserResponseDTO response = UserFixture.userResponse();
+
+            when(userRepository.findById(ID)).thenReturn(Optional.of(user));
+            when(userMapper.toResponseDTO(user)).thenReturn(response);
+
+            assertThat(userService.findById(ID)).isSameAs(response);
+        }
+
+        @Test
+        @DisplayName("Throw a ResourceNotFoundException when the user is not found")
+        public void shouldThrowWhenNotFound(){
+            when(userRepository.findById(ID)).thenReturn(Optional.empty());
+
+            assertThatThrownBy(() -> userService.findById(ID))
+                    .isInstanceOf(ResourceNotFoundException.class);
         }
     }
 }
