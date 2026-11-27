@@ -12,10 +12,7 @@ public record UserUpdateDTO(
         @Email
         @Size
         (max = 255) String email,
-
-        @Size
-        (min = 8) String password,
-
+        
         @Pattern(
             regexp = "^(?:\\s*\\d){10,15}\\s*$",
             message = "telefone deve ter de 10 a 15 dígitos (somente números)"
