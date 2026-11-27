@@ -2,6 +2,7 @@ package br.com.assinahub.controllers;
 
 import br.com.assinahub.dtos.user.UserRequestDTO;
 import br.com.assinahub.dtos.user.UserResponseDTO;
+import br.com.assinahub.dtos.user.UserUpdateDTO;
 import br.com.assinahub.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,13 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> findById(@PathVariable UUID id){
         UserResponseDTO response = userService.findById(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<UserResponseDTO> update(@PathVariable UUID id,
+                                                  @RequestBody @Valid UserUpdateDTO requestDTO){
+        UserResponseDTO response = userService.update(id, requestDTO);
         return ResponseEntity.ok(response);
     }
 }

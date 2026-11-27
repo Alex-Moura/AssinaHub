@@ -2,6 +2,7 @@ package br.com.assinahub.services.imp;
 
 import br.com.assinahub.dtos.user.UserRequestDTO;
 import br.com.assinahub.dtos.user.UserResponseDTO;
+import br.com.assinahub.dtos.user.UserUpdateDTO;
 import br.com.assinahub.entities.User;
 import br.com.assinahub.exceptions.ConflictException;
 import br.com.assinahub.exceptions.ResourceNotFoundException;
@@ -52,8 +53,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDTO update(UUID userId, UserRequestDTO request) {
-        return null;
+    @Transactional
+    public UserResponseDTO update(UUID userId, UserUpdateDTO request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("Usuário não encontrado"));
+        userMapper.updateEntity(request, user);
+        return userMapper.toResponseDTO(userRepository.save(user));
     }
 
     @Override
