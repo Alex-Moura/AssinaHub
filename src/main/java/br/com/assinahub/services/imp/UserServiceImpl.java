@@ -54,10 +54,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResponseDTO update(UUID userId, UserUpdateDTO request) {
+    public UserResponseDTO update(UUID userId, UserUpdateDTO requestDTO) {
         User user = userRepository.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("Usuário não encontrado"));
-        userMapper.updateEntity(request, user);
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+
+        String email = requestDTO.email() == null ? null : requestDTO.email().trim().toLowerCase();
+        String phone = requestDTO.phone() == null ? null : requestDTO.phone().replaceAll("\\s+", "");
+
+        if (email != null && !email.equals(user.getEmail()) && userRepository.existsByEmail(email)) {
+            throw new ConflictException("Email já cadastrado");
+        }
+        if (phone != null && !phone.equals(user.getPhone()) && userRepository.existsByPhone(phone)) {
+            throw new ConflictException("Telefone já cadastrado");
+        }
+
+        userMapper.updateEntity(requestDTO, user);
+        if (email != null) user.setEmail(email);
+        if (phone != null) user.setPhone(phone);
+
         return userMapper.toResponseDTO(userRepository.save(user));
     }
 
