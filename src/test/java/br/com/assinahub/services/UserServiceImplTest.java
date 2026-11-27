@@ -49,7 +49,7 @@ public class UserServiceImplTest {
 
     @Nested
     @DisplayName("create")
-    class create {
+    class Create {
 
         @Captor
         private ArgumentCaptor<User> userCaptor;
@@ -127,7 +127,7 @@ public class UserServiceImplTest {
 
         @Test
         @DisplayName("should throw ConflictException when the email already exists")
-        public void shouldThrowWhenEmailAlreadyExists(){
+         void shouldThrowWhenEmailAlreadyExists(){
             UserRequestDTO request = UserFixture.userRequest("  ALEX@Gmail.com ", UserFixture.PHONE);
 
             when(userRepository.existsByEmail("alex@gmail.com")).thenReturn(true);
@@ -143,7 +143,7 @@ public class UserServiceImplTest {
 
         @Test
         @DisplayName("Should throw ConflictException when the phone already exists")
-        public void shouldThrowWhenPhoneAlreadyExists(){
+         void shouldThrowWhenPhoneAlreadyExists(){
             UserRequestDTO request = UserFixture.userRequest(UserFixture.EMAIL, " 11 99999 9999 ");
 
             when(userRepository.existsByEmail(UserFixture.EMAIL)).thenReturn(false);
@@ -160,13 +160,13 @@ public class UserServiceImplTest {
 
     @Nested
     @DisplayName("findById")
-    class findById{
+    class FindById{
 
         private final static UUID ID = java.util.UUID.randomUUID();
 
         @Test
         @DisplayName("should return the user when it exists")
-        public void shouldReturnUserWhenFound(){
+         void shouldReturnUserWhenFound(){
             User user = UserFixture.userEntity();
             UserResponseDTO response = UserFixture.userResponse();
 
@@ -178,7 +178,7 @@ public class UserServiceImplTest {
 
         @Test
         @DisplayName("Throw a ResourceNotFoundException when the user is not found")
-        public void shouldThrowWhenNotFound(){
+         void shouldThrowWhenNotFound(){
             when(userRepository.findById(ID)).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> userService.findById(ID))
